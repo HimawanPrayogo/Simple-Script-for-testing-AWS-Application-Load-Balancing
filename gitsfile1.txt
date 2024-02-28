@@ -1,0 +1,21 @@
+UBUNTU AMI
+#!/bin/bash
+sudo apt update
+sudo apt install curl -y
+sudo apt install apache2 -y
+sudo curl http://169.254.169.254/latest/meta-data/public-ipv4 -o /var/www/html/index.html
+
+AMAZON LINUX 2 AMI
+#!/bin/bash
+sudo yum install httpd -y
+sudo systemctl enable httpd
+sudo systemctl start httpd
+sudo curl http://169.254.169.254/latest/meta-data/public-ipv4 -o /var/www/html/index.html
+
+AMAZON Linux 2023
+#!/bin/bash
+sudo yum install httpd -y
+sudo systemctl enable httpd
+sudo systemctl start httpd
+TOKEN=$(curl --request PUT "http://169.254.169.254/latest/api/token" --header "X-aws-ec2-metadata-token-ttl-seconds: 3600")
+sudo curl -s http://169.254.169.254/latest/meta-data/public-ipv4 --header "X-aws-ec2-metadata-token: $TOKEN" -o /var/www/html/index.html
